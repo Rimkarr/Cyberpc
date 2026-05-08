@@ -1,0 +1,3 @@
+{"username":"admin","email":"admin@cyberpc.kz","password":"$2a$10$crXoAT7kU3GEbikeEkFp4./yz26use0wrhXoVq4EOlAVTXFD3pynW","phone":"+7 747 123-45-67","role":"admin","avatar":"","created_at":{"$$date":1777927483548},"_id":"cIr3wGq1EuYcAuTi"}
+{"username":"sanzhar","email":"sanzhar","password":"$2a$10$quwz1l8mWylfo7zknedx7.KeGctincO9mpf9ASKTK7M.w8aCy7taq","phone":"7770051513","role":"user","avatar":"","created_at":{"$$date":1777928020321},"_id":"rHsgeZpLUYaFAWBJ"}
+{"username":"sdsdsds","email":"aadasdsad@mail.ru","password":"$2a$10$DAEIKtdLBDdlMSA235E17un6/GiDn5Glb3ffvxGFSG5jobLBTWDke","phone":"750753727","role":"user","avatar":"","created_at":{"$$date":1778038386132},"_id":"s96PvTjdAtMAn0kv"}

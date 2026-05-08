@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CyberPC Kazakhstan — Конфигуратор ПК</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@300;400;500;600;700;800&family=Barlow+Condensed:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="header">
+  <div class="header-inner">
+    <a class="logo" href="#" onclick="showPage('home')">
+      <span class="logo-c">CYBER</span><span class="logo-p">PC</span>
+      <span class="logo-kz">KZ</span>
+    </a>
+    <nav class="nav" id="main-nav">
+      <a href="#" onclick="showPage('home')"    class="nl">Главная</a>
+      <a href="#" onclick="showPage('catalog')" class="nl">Каталог</a>
+      <a href="#" onclick="showPage('builder')" class="nl nl-hot">⚡ Конфигуратор</a>
+      <a href="#" onclick="showPage('builds')"  class="nl">Сборки</a>
+      <a href="#" onclick="showPage('contact')" class="nl">Контакты</a>
+    </nav>
+    <div class="h-right">
+      <button class="ib" onclick="toggleSearch()" title="Поиск">🔍</button>
+      <button class="ib" onclick="showPage('cart')" title="Корзина">
+        🛒<span class="badge" id="cart-badge">0</span>
+      </button>
+      <button class="ib" onclick="showPage('profile')" title="Аккаунт">👤</button>
+      <span id="auth-label" class="auth-label"></span>
+      <a href="#" id="admin-link" class="nl hidden" onclick="showPage('admin')">⚙ Админ</a>
+    </div>
+  </div>
+  <!-- Quick search -->
+  <div id="quick-search" class="qsearch hidden">
+    <div class="qs-inner">
+      <input type="text" id="qs-input" placeholder="Поиск товаров..." oninput="quickSearch(this.value)" autocomplete="off">
+      <button onclick="toggleSearch()">✕</button>
+    </div>
+    <div id="qs-results" class="qs-results"></div>
+  </div>
+</header>
+
+<main id="app">
+
+<!-- ══════════ HOME ══════════ -->
+<div id="page-home" class="page">
+  <section class="hero">
+    <div class="hero-grid"></div>
+    <div class="hero-wrap">
+      <div class="hero-text">
+        <div class="eyebrow"><span class="dot"></span>Профессиональные игровые системы · Алматы</div>
+        <h1 class="htitle">СОБЕРИ<br><span class="haccent">СВОЙ ПК</span></h1>
+        <p class="hsub">Конфигуратор с проверкой совместимости.<br>Более 60 комплектующих. Доставка по РК.</p>
+        <div class="hbtns">
+          <button class="btn-pr" onclick="showPage('builder')">⚡ КОНФИГУРАТОР</button>
+          <button class="btn-gh" onclick="showPage('catalog')">Каталог товаров</button>
+        </div>
+        <div class="hstats">
+          <div class="hs"><strong>60+</strong><span>Товаров</span></div>
+          <div class="hs-d"></div>
+          <div class="hs"><strong>3</strong><span>Сборки</span></div>
+          <div class="hs-d"></div>
+          <div class="hs"><strong>100%</strong><span>Совместимость</span></div>
+        </div>
+      </div>
+      <div class="hero-art">
+        <div class="ring r1"></div><div class="ring r2"></div><div class="ring r3"></div>
+        <div class="cpu-svg">
+          <svg width="160" height="160" viewBox="0 0 160 160" fill="none">
+            <rect x="10" y="10" w="140" h="140" rx="10" stroke="var(--ac)" stroke-width="1.5" opacity=".4"/>
+            <rect x="28" y="28" width="104" height="104" rx="6" stroke="var(--ac)" stroke-width="1" opacity=".6"/>
+            <rect x="46" y="46" width="68" height="68" rx="4" fill="var(--ac)" opacity=".07" stroke="var(--ac)" stroke-width="1"/>
+            <circle cx="80" cy="80" r="20" stroke="var(--ac)" stroke-width="2" opacity=".9"/>
+            <circle cx="80" cy="80" r="8" fill="var(--ac)" opacity=".8"/>
+            <line x1="80" y1="10" x2="80" y2="46" stroke="var(--ac)" stroke-width="1.5" opacity=".5"/>
+            <line x1="80" y1="114" x2="80" y2="150" stroke="var(--ac)" stroke-width="1.5" opacity=".5"/>
+            <line x1="10" y1="80" x2="46" y2="80" stroke="var(--ac)" stroke-width="1.5" opacity=".5"/>
+            <line x1="114" y1="80" x2="150" y2="80" stroke="var(--ac)" stroke-width="1.5" opacity=".5"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Categories -->
+  <section class="sec">
+    <div class="wrap">
+      <div class="slbl">КАТЕГОРИИ</div>
+      <h2 class="sh2">Комплектующие</h2>
+      <div class="cats-grid">
+        <div class="cat" onclick="filterAndGo('cpu')">     <div class="ci">🖥️</div><div class="cn">Процессоры</div><div class="cs">CPU</div></div>
+        <div class="cat" onclick="filterAndGo('motherboard')"><div class="ci">🔌</div><div class="cn">Материнские платы</div><div class="cs">Motherboard</div></div>
+        <div class="cat" onclick="filterAndGo('gpu')">     <div class="ci">🎮</div><div class="cn">Видеокарты</div><div class="cs">GPU</div></div>
+        <div class="cat" onclick="filterAndGo('ram')">     <div class="ci">💾</div><div class="cn">Оперативная память</div><div class="cs">RAM</div></div>
+        <div class="cat" onclick="filterAndGo('ssd')">     <div class="ci">💿</div><div class="cn">SSD накопители</div><div class="cs">Storage</div></div>
+        <div class="cat" onclick="filterAndGo('psu')">     <div class="ci">⚡</div><div class="cn">Блоки питания</div><div class="cs">PSU</div></div>
+        <div class="cat" onclick="filterAndGo('case')">    <div class="ci">🗂️</div><div class="cn">Корпуса</div><div class="cs">Case</div></div>
+        <div class="cat" onclick="filterAndGo('cooler')">  <div class="ci">❄️</div><div class="cn">Кулеры / СВО</div><div class="cs">Cooling</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Popular products -->
+  <section class="sec sec-d">
+    <div class="wrap">
+      <div class="s-hd"><div><div class="slbl">МАГАЗИН</div><h2 class="sh2 mb0">Популярные товары</h2></div><button class="btn-tx" onclick="showPage('catalog')">Весь каталог →</button></div>
+      <div class="pgrid" id="home-products"></div>
+    </div>
+  </section>
+
+  <!-- Preset builds -->
+  <section class="sec">
+    <div class="wrap">
+      <div class="slbl">ГОТОВЫЕ СБОРКИ</div>
+      <h2 class="sh2">Конфигурации под задачи</h2>
+      <div class="bgrid" id="home-builds"></div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-sec">
+    <div class="cta-bg"></div>
+    <div class="wrap cta-in">
+      <div><div class="slbl">КОНФИГУРАТОР</div><h2 class="cta-h">Собери ПК своей мечты</h2><p class="cta-p">Умный подбор совместимых комплектующих с проверкой в реальном времени</p></div>
+      <button class="btn-pr btn-xl" onclick="showPage('builder')">Открыть конфигуратор ⚡</button>
+    </div>
+  </section>
+</div>
+
+<!-- ══════════ CATALOG ══════════ -->
+<div id="page-catalog" class="page hidden">
+  <div class="wrap">
+    <div class="ptop"><h1 class="ptitle">Каталог</h1></div>
+    <div class="cat-lay">
+      <aside class="fbar">
+        <div class="fb"><div class="fb-t">КАТЕГОРИЯ</div>
+          <div class="fopts">
+            <label class="fo"><input type="radio" name="fcat" value=""            checked onchange="applyFilter()"> Все товары</label>
+            <label class="fo"><input type="radio" name="fcat" value="cpu"         onchange="applyFilter()"> 🖥️ Процессоры</label>
+            <label class="fo"><input type="radio" name="fcat" value="motherboard" onchange="applyFilter()"> 🔌 Материнские платы</label>
+            <label class="fo"><input type="radio" name="fcat" value="gpu"         onchange="applyFilter()"> 🎮 Видеокарты</label>
+            <label class="fo"><input type="radio" name="fcat" value="ram"         onchange="applyFilter()"> 💾 Оперативная память</label>
+            <label class="fo"><input type="radio" name="fcat" value="ssd"         onchange="applyFilter()"> 💿 SSD накопители</label>
+            <label class="fo"><input type="radio" name="fcat" value="psu"         onchange="applyFilter()"> ⚡ Блоки питания</label>
+            <label class="fo"><input type="radio" name="fcat" value="case"        onchange="applyFilter()"> 🗂️ Корпуса</label>
+            <label class="fo"><input type="radio" name="fcat" value="cooler"      onchange="applyFilter()"> ❄️ Кулеры / СВО</label>
+          </div>
+        </div>
+        <div class="fb"><div class="fb-t">БРЕНД</div>
+          <select class="finput" id="f-brand" onchange="applyFilter()">
+            <option value="">Все бренды</option>
+            <option>AMD</option><option>Intel</option><option>NVIDIA</option>
+            <option>ASUS</option><option>MSI</option><option>Gigabyte</option>
+            <option>Corsair</option><option>Kingston</option><option>G.Skill</option>
+            <option>Samsung</option><option>WD</option><option>Seagate</option>
+            <option>Noctua</option><option>be quiet!</option><option>NZXT</option>
+            <option>Lian Li</option><option>Fractal Design</option><option>Phanteks</option>
+            <option>Cooler Master</option><option>Seasonic</option>
+          </select>
+        </div>
+        <div class="fb"><div class="fb-t">ЦЕНА (₸)</div>
+          <div class="price-range">
+            <input type="number" class="finput" id="f-min" placeholder="От" onchange="applyFilter()">
+            <input type="number" class="finput" id="f-max" placeholder="До" onchange="applyFilter()">
+          </div>
+        </div>
+        <div class="fb"><div class="fb-t">СОРТИРОВКА</div>
+          <select class="finput" id="f-sort" onchange="applyFilter()">
+            <option value="price_asc">Цена ↑</option>
+            <option value="price_desc">Цена ↓</option>
+            <option value="name">По названию</option>
+          </select>
+        </div>
+        <div class="fb"><div class="fb-t">ПОИСК</div>
+          <input type="text" class="finput" id="f-search" placeholder="Название..." oninput="applyFilter()">
+        </div>
+        <button class="btn-gh" style="width:100%" onclick="resetFilters()">Сбросить фильтры</button>
+      </aside>
+      <div>
+        <div class="catalog-top">
+          <span id="catalog-count" class="cat-count"></span>
+          <div class="view-toggle">
+            <button id="vg-btn" class="vbtn active" onclick="setView('grid')">▦ Сетка</button>
+            <button id="vl-btn" class="vbtn"        onclick="setView('list')">≡ Список</button>
+          </div>
+        </div>
+        <div id="catalog-products" class="pgrid"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ PRODUCT DETAIL ══════════ -->
+<div id="page-product" class="page hidden">
+  <div class="wrap" id="product-detail-content"></div>
+</div>
+
+<!-- ══════════ BUILDER ══════════ -->
+<div id="page-builder" class="page hidden">
+  <div class="wrap">
+    <div class="ptop">
+      <div><div class="slbl">ОНЛАЙН-ИНСТРУМЕНТ</div><h1 class="ptitle">Конфигуратор ПК</h1><p class="psub">Выбирайте комплектующие — система автоматически проверит совместимость</p></div>
+    </div>
+    <div class="bld-lay">
+      <div class="slots">
+        <div class="slot" id="step-cpu">       <div class="sn">01</div><div class="se">🖥️</div><div class="si"><div class="sc">ПРОЦЕССОР / CPU</div>        <div class="ss" id="sel-cpu">Не выбран</div></div><button class="sbtn" onclick="openSlot('cpu')">Выбрать</button><button class="sclear hidden" id="clr-cpu" onclick="clearSlot('cpu')">✕</button></div>
+        <div class="slot" id="step-motherboard"><div class="sn">02</div><div class="se">🔌</div><div class="si"><div class="sc">МАТЕРИНСКАЯ ПЛАТА</div>        <div class="ss" id="sel-motherboard">Не выбрана</div></div><button class="sbtn" onclick="openSlot('motherboard')">Выбрать</button><button class="sclear hidden" id="clr-motherboard" onclick="clearSlot('motherboard')">✕</button></div>
+        <div class="slot" id="step-gpu">       <div class="sn">03</div><div class="se">🎮</div><div class="si"><div class="sc">ВИДЕОКАРТА / GPU</div>         <div class="ss" id="sel-gpu">Не выбрана</div></div><button class="sbtn" onclick="openSlot('gpu')">Выбрать</button><button class="sclear hidden" id="clr-gpu" onclick="clearSlot('gpu')">✕</button></div>
+        <div class="slot" id="step-ram">       <div class="sn">04</div><div class="se">💾</div><div class="si"><div class="sc">ОПЕРАТИВНАЯ ПАМЯТЬ</div>       <div class="ss" id="sel-ram">Не выбрана</div></div><button class="sbtn" onclick="openSlot('ram')">Выбрать</button><button class="sclear hidden" id="clr-ram" onclick="clearSlot('ram')">✕</button></div>
+        <div class="slot" id="step-ssd">       <div class="sn">05</div><div class="se">💿</div><div class="si"><div class="sc">SSD НАКОПИТЕЛЬ</div>           <div class="ss" id="sel-ssd">Не выбран</div></div><button class="sbtn" onclick="openSlot('ssd')">Выбрать</button><button class="sclear hidden" id="clr-ssd" onclick="clearSlot('ssd')">✕</button></div>
+        <div class="slot" id="step-cooler">    <div class="sn">06</div><div class="se">❄️</div><div class="si"><div class="sc">КУЛЕР / СИСТЕМА ОХЛАЖДЕНИЯ</div><div class="ss" id="sel-cooler">Не выбран</div></div><button class="sbtn" onclick="openSlot('cooler')">Выбрать</button><button class="sclear hidden" id="clr-cooler" onclick="clearSlot('cooler')">✕</button></div>
+        <div class="slot" id="step-psu">       <div class="sn">07</div><div class="se">⚡</div><div class="si"><div class="sc">БЛОК ПИТАНИЯ / PSU</div>        <div class="ss" id="sel-psu">Не выбран</div></div><button class="sbtn" onclick="openSlot('psu')">Выбрать</button><button class="sclear hidden" id="clr-psu" onclick="clearSlot('psu')">✕</button></div>
+        <div class="slot" id="step-case">      <div class="sn">08</div><div class="se">🗂️</div><div class="si"><div class="sc">КОРПУС / CASE</div>             <div class="ss" id="sel-case">Не выбран</div></div><button class="sbtn" onclick="openSlot('case')">Выбрать</button><button class="sclear hidden" id="clr-case" onclick="clearSlot('case')">✕</button></div>
+      </div>
+      <div class="sum-panel">
+        <div class="sp-hd"><div class="slbl">КОНФИГУРАЦИЯ</div><div class="sp-t">Ваша сборка</div></div>
+        <div id="compat-box"></div>
+        <div id="sum-items"><div class="sp-empty">Выберите комплектующие</div></div>
+        <div class="sp-total"><span>ИТОГО</span><span id="build-total" class="sp-price">0 ₸</span></div>
+        <div id="psu-rec" class="psu-hint hidden"></div>
+        <div class="sp-acts">
+          <button class="btn-pr" onclick="addBuildToCart()">🛒 В корзину</button>
+          <button class="btn-ol" onclick="saveBuild()">💾 Сохранить</button>
+          <button class="btn-rs" onclick="clearBuild()">Сбросить</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ BUILDS ══════════ -->
+<div id="page-builds" class="page hidden">
+  <div class="wrap">
+    <div class="ptop"><div class="slbl">ГОТОВЫЕ КОНФИГУРАЦИИ</div><h1 class="ptitle">Сборки ПК</h1></div>
+    <div class="bgrid large" id="builds-page"></div>
+    <div id="my-builds-wrap" class="hidden">
+      <div class="slbl mt3">МОИ СБОРКИ</div>
+      <h2 class="sh2">Сохранённые конфигурации</h2>
+      <div class="bgrid large" id="my-builds-list"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ CART ══════════ -->
+<div id="page-cart" class="page hidden">
+  <div class="wrap">
+    <div class="ptop"><h1 class="ptitle">Корзина</h1></div>
+    <div class="cart-lay">
+      <div id="cart-items-list"></div>
+      <div class="cart-side">
+        <div class="cs"><div class="slbl">ЗАКАЗ</div>
+          <div class="cs-r"><span>Товаров:</span><span id="cart-count-txt">0</span></div>
+          <div class="cs-r big"><span>К оплате:</span><span id="cart-total-txt">0 ₸</span></div>
+          <button class="btn-pr" onclick="showPage('checkout')">Оформить заказ</button>
+          <button class="btn-gh" onclick="clearCart()">Очистить корзину</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ CHECKOUT ══════════ -->
+<div id="page-checkout" class="page hidden">
+  <div class="wrap">
+    <div class="ptop"><h1 class="ptitle">Оформление заказа</h1></div>
+    <div class="co-lay">
+      <div class="fcard">
+        <div class="slbl">ДАННЫЕ</div><h3 class="fc-h">Контактная информация</h3>
+        <div class="fg"><label>Имя *</label><input type="text" class="finput" id="o-name" placeholder="Ваше имя"></div>
+        <div class="fg"><label>Телефон *</label><input type="tel" class="finput" id="o-phone" placeholder="+7 (___) ___-__-__"></div>
+        <div class="fg"><label>Email</label><input type="email" class="finput" id="o-email" placeholder="email@example.com"></div>
+        <div class="fg"><label>Адрес доставки</label><input type="text" class="finput" id="o-addr" placeholder="г. Алматы, ул. ..."></div>
+        <div class="fg"><label>Комментарий</label><textarea class="finput" id="o-comment" rows="2" placeholder="Пожелания к заказу..."></textarea></div>
+        <div class="slbl mt2">ОПЛАТА</div><h3 class="fc-h">Способ оплаты</h3>
+        <div class="pay-opts">
+          <label class="po"><input type="radio" name="pay" value="card" checked><span>💳 Банковская карта</span></label>
+          <label class="po"><input type="radio" name="pay" value="kaspi"><span>🟠 Kaspi Pay</span></label>
+          <label class="po"><input type="radio" name="pay" value="cash"><span>💵 Наличные при получении</span></label>
+        </div>
+        <button class="btn-pr mt2" style="width:100%" onclick="submitOrder()">✅ Подтвердить заказ</button>
+      </div>
+      <div class="fcard">
+        <div class="slbl">СОСТАВ</div><h3 class="fc-h">Ваш заказ</h3>
+        <div id="co-items"></div>
+        <div class="co-total"><span>Итого:</span><span id="co-total-price"></span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ PROFILE ══════════ -->
+<div id="page-profile" class="page hidden">
+  <div class="wrap">
+    <div id="auth-area">
+      <div class="auth-tabs"><button class="atab active" onclick="switchTab('login')">Вход</button><button class="atab" onclick="switchTab('register')">Регистрация</button></div>
+      <div id="login-form" class="fcard auth-card">
+        <div class="slbl">АККАУНТ</div><h2 class="fc-h">Войти в аккаунт</h2>
+        <div class="fg"><label>Email или логин</label><input type="text" class="finput" id="l-email" placeholder="email@example.com"></div>
+        <div class="fg"><label>Пароль</label><input type="password" class="finput" id="l-pass" placeholder="••••••••"></div>
+        <div class="fmsg" id="l-msg"></div>
+        <button class="btn-pr w100" onclick="doLogin()">Войти</button>
+      </div>
+      <div id="reg-form" class="fcard auth-card hidden">
+        <div class="slbl">АККАУНТ</div><h2 class="fc-h">Создать аккаунт</h2>
+        <div class="frow">
+          <div class="fg"><label>Логин *</label><input type="text" class="finput" id="r-user" placeholder="username"></div>
+          <div class="fg"><label>Телефон</label><input type="tel" class="finput" id="r-phone" placeholder="+7..."></div>
+        </div>
+        <div class="fg"><label>Email *</label><input type="email" class="finput" id="r-email" placeholder="email@example.com"></div>
+        <div class="fg"><label>Пароль *</label><input type="password" class="finput" id="r-pass" placeholder="Минимум 6 символов"></div>
+        <div class="fmsg" id="r-msg"></div>
+        <button class="btn-pr w100" onclick="doRegister()">Зарегистрироваться</button>
+      </div>
+    </div>
+    <div id="dash-area" class="hidden">
+      <div class="ptop"><h1 class="ptitle">Кабинет — <span id="d-uname"></span></h1><button class="btn-gh" onclick="doLogout()">Выйти</button></div>
+      <div class="dash-grid">
+        <div class="fcard"><div class="slbl">ПРОФИЛЬ</div><h3 class="fc-h">👤 <span id="d-uname2"></span></h3><p style="color:var(--t2)">Добро пожаловать в CyberPC Kazakhstan!</p><p style="color:var(--t3);font-size:.8rem;margin-top:.5rem">Здесь вы можете видеть свои заказы и сборки.</p></div>
+        <div class="fcard"><div class="slbl">ЗАКАЗЫ</div><h3 class="fc-h">История заказов</h3><div id="my-orders"></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ CONTACT ══════════ -->
+<div id="page-contact" class="page hidden">
+  <div class="wrap">
+    <div class="ptop"><h1 class="ptitle">Контакты</h1></div>
+    <div class="contact-grid">
+      <div class="fcard">
+        <div class="slbl">СВЯЖИТЕСЬ С НАМИ</div>
+        <h3 class="fc-h">CyberPC Kazakhstan</h3>
+        <div class="contact-list">
+          <div class="contact-item"><span class="ci-icon">📍</span><div><strong>Адрес офиса</strong><p>г. Алматы, ул. Абая 150, БЦ "Digital Tower", офис 301</p></div></div>
+          <div class="contact-item"><span class="ci-icon">📞</span><div><strong>Телефон / WhatsApp</strong><p><a href="tel:+77471234567">+7 (747) 123-45-67</a></p></div></div>
+          <div class="contact-item"><span class="ci-icon">✉️</span><div><strong>Email</strong><p><a href="mailto:info@cyberpc.kz">info@cyberpc.kz</a></p></div></div>
+          <div class="contact-item"><span class="ci-icon">⏰</span><div><strong>Режим работы</strong><p>Пн–Сб: 10:00–20:00 / Вс: 11:00–18:00</p></div></div>
+        </div>
+        <div class="social-links">
+          <div class="slbl mt2">СОЦИАЛЬНЫЕ СЕТИ</div>
+          <div class="socials">
+            <a href="https://instagram.com/cyberpc.kz" target="_blank" class="soc-btn soc-ig">📷 Instagram @cyberpc.kz</a>
+            <a href="https://t.me/CyberPC_KZ" target="_blank" class="soc-btn soc-tg">✈️ Telegram @CyberPC_KZ</a>
+            <a href="https://wa.me/77471234567" target="_blank" class="soc-btn soc-wa">💬 WhatsApp</a>
+          </div>
+        </div>
+      </div>
+      <div class="fcard">
+        <div class="slbl">НАПИСАТЬ НАМ</div>
+        <h3 class="fc-h">Форма обратной связи</h3>
+        <div class="fg"><label>Имя</label><input type="text" class="finput" id="cf-name" placeholder="Ваше имя"></div>
+        <div class="fg"><label>Телефон / Email</label><input type="text" class="finput" id="cf-contact" placeholder="+7... или email@..."></div>
+        <div class="fg"><label>Тема</label><select class="finput" id="cf-topic"><option>Консультация по выбору ПК</option><option>Вопрос по заказу</option><option>Гарантия / Ремонт</option><option>Другое</option></select></div>
+        <div class="fg"><label>Сообщение</label><textarea class="finput" id="cf-msg" rows="4" placeholder="Опишите ваш вопрос..."></textarea></div>
+        <button class="btn-pr mt1" onclick="submitContactForm()">Отправить сообщение</button>
+        <div class="fmsg" id="cf-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ ADMIN ══════════ -->
+<div id="page-admin" class="page hidden">
+  <div class="wrap">
+    <div class="ptop"><h1 class="ptitle">⚙ Панель управления</h1></div>
+    <div id="adm-stats"></div>
+    <div class="adm-tabs">
+      <button class="adm-tab active" onclick="admTab('products')">Товары</button>
+      <button class="adm-tab"        onclick="admTab('orders')">Заказы</button>
+    </div>
+
+    <!-- Products tab -->
+    <div id="adm-products">
+      <div style="margin-bottom:1rem"><button class="btn-pr" onclick="showAddForm()">+ Добавить товар</button></div>
+      <div id="adm-add-form" class="fcard hidden" style="margin-bottom:1.5rem">
+        <div class="slbl">НОВЫЙ ТОВАР</div>
+        <div class="frow">
+          <div class="fg"><label>Название *</label><input type="text" class="finput" id="ap-name"></div>
+          <div class="fg"><label>Категория *</label>
+            <select class="finput" id="ap-cat">
+              <option value="cpu">CPU</option><option value="motherboard">Motherboard</option>
+              <option value="gpu">GPU</option><option value="ram">RAM</option>
+              <option value="ssd">SSD</option><option value="psu">PSU</option>
+              <option value="case">Case</option><option value="cooler">Cooler</option>
+            </select>
+          </div>
+          <div class="fg"><label>Цена (₸) *</label><input type="number" class="finput" id="ap-price"></div>
+        </div>
+        <div class="frow">
+          <div class="fg"><label>Бренд</label><input type="text" class="finput" id="ap-brand"></div>
+          <div class="fg"><label>Socket</label><input type="text" class="finput" id="ap-socket"></div>
+          <div class="fg"><label>Memory Type</label><input type="text" class="finput" id="ap-mem"></div>
+        </div>
+        <div class="frow">
+          <div class="fg"><label>TDP (W)</label><input type="number" class="finput" id="ap-tdp"></div>
+          <div class="fg"><label>Wattage PSU (W)</label><input type="number" class="finput" id="ap-watt"></div>
+          <div class="fg"><label>Кол-во в наличии</label><input type="number" class="finput" id="ap-stock" value="10"></div>
+        </div>
+        <div class="fg"><label>Характеристики (кратко)</label><input type="text" class="finput" id="ap-specs" placeholder="6 ядер, 3.5 GHz..."></div>
+        <div class="fg"><label>Описание (подробно)</label><textarea class="finput" id="ap-desc" rows="3" placeholder="Подробное описание товара..."></textarea></div>
+        <div class="fg"><label>URL изображения (или загрузите файл ниже)</label><input type="text" class="finput" id="ap-img" placeholder="https://..."></div>
+        <div class="fg"><label>Загрузить изображение</label><input type="file" class="finput" id="ap-imgfile" accept="image/*"></div>
+        <div class="fmsg" id="ap-msg"></div>
+        <div style="display:flex;gap:.75rem">
+          <button class="btn-pr" onclick="submitAddProduct()">Добавить товар</button>
+          <button class="btn-gh" onclick="document.getElementById('adm-add-form').classList.add('hidden')">Отмена</button>
+        </div>
+      </div>
+      <div class="tbl-wrap"><table class="adm-tbl" id="adm-p-tbl">
+        <thead><tr><th>Фото</th><th>Название</th><th>Кат.</th><th>Цена</th><th>Склад</th><th>Действия</th></tr></thead>
+        <tbody id="adm-p-body"></tbody>
+      </table></div>
+    </div>
+
+    <!-- Orders tab -->
+    <div id="adm-orders" class="hidden">
+      <div class="tbl-wrap"><table class="adm-tbl">
+        <thead><tr><th>ID</th><th>Клиент</th><th>Сумма</th><th>Оплата</th><th>Статус</th><th>Дата</th><th>Действия</th></tr></thead>
+        <tbody id="adm-o-body"></tbody>
+      </table></div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- ══════════ COMPONENT MODAL ══════════ -->
+<div id="slot-modal" class="modal-ov hidden">
+  <div class="modal">
+    <div class="modal-hd">
+      <div><div class="slbl" id="modal-cat-label">ВЫБОР</div><h3 id="modal-title" class="modal-ttl">—</h3></div>
+      <button class="modal-x" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-bd">
+      <input type="text" class="finput" id="modal-search" placeholder="Поиск..." oninput="filterModal()">
+      <div class="modal-grid" id="modal-products"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ PRODUCT EDIT MODAL (admin) ══════════ -->
+<div id="edit-modal" class="modal-ov hidden">
+  <div class="modal" style="max-width:720px">
+    <div class="modal-hd"><div><div class="slbl">РЕДАКТИРОВАНИЕ</div><h3 class="modal-ttl">Редактировать товар</h3></div><button class="modal-x" onclick="closeEditModal()">✕</button></div>
+    <div class="modal-bd" style="overflow-y:auto">
+      <input type="hidden" id="ep-id">
+      <div class="frow"><div class="fg"><label>Название *</label><input type="text" class="finput" id="ep-name"></div><div class="fg"><label>Цена (₸) *</label><input type="number" class="finput" id="ep-price"></div></div>
+      <div class="frow"><div class="fg"><label>Бренд</label><input type="text" class="finput" id="ep-brand"></div><div class="fg"><label>Склад</label><input type="number" class="finput" id="ep-stock"></div></div>
+      <div class="frow"><div class="fg"><label>Socket</label><input type="text" class="finput" id="ep-socket"></div><div class="fg"><label>Memory Type</label><input type="text" class="finput" id="ep-mem"></div><div class="fg"><label>TDP</label><input type="number" class="finput" id="ep-tdp"></div><div class="fg"><label>Wattage</label><input type="number" class="finput" id="ep-watt"></div></div>
+      <div class="fg"><label>Характеристики</label><input type="text" class="finput" id="ep-specs"></div>
+      <div class="fg"><label>Описание</label><textarea class="finput" id="ep-desc" rows="3"></textarea></div>
+      <div class="fg"><label>URL изображения</label><input type="text" class="finput" id="ep-img"></div>
+      <div class="fg"><label>Загрузить новое изображение</label><input type="file" class="finput" id="ep-imgfile" accept="image/*"></div>
+      <div class="fmsg" id="ep-msg"></div>
+      <div style="display:flex;gap:.75rem"><button class="btn-pr" onclick="submitEditProduct()">Сохранить</button><button class="btn-gh" onclick="closeEditModal()">Отмена</button></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ CHAT WIDGET ══════════ -->
+<button id="chat-fab" class="chat-fab" onclick="toggleChat()" title="Онлайн-консультант">💬<span class="chat-dot"></span></button>
+<div id="chat-window" class="chat-win hidden">
+  <div class="chat-hd">
+    <div class="chat-agent">
+      <div class="agent-ava">🤖</div>
+      <div><div class="agent-name">CyberPC Bot</div><div class="agent-status"><span class="online-dot"></span>Онлайн</div></div>
+    </div>
+    <button onclick="toggleChat()">✕</button>
+  </div>
+  <div class="chat-msgs" id="chat-msgs"></div>
+  <div class="chat-inp">
+    <input type="text" id="chat-input" placeholder="Напишите вопрос..." onkeydown="if(event.key==='Enter')sendChat()">
+    <button onclick="sendChat()">➤</button>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div id="toast" class="toast hidden"></div>
+
+<footer class="footer">
+  <div class="wrap footer-in">
+    <div>
+      <div class="logo"><span class="logo-c">CYBER</span><span class="logo-p">PC</span></div>
+      <div style="color:var(--t3);font-size:.72rem;letter-spacing:.12em;margin-top:.2rem">KAZAKHSTAN GAMING SYSTEMS</div>
+    </div>
+    <div class="f-links">
+      <a href="#" onclick="showPage('catalog')">Каталог</a>
+      <a href="#" onclick="showPage('builder')">Конфигуратор</a>
+      <a href="#" onclick="showPage('builds')">Сборки</a>
+      <a href="#" onclick="showPage('contact')">Контакты</a>
+      <a href="#" onclick="showPage('profile')">Аккаунт</a>
+      <a href="#" id="f-admin" class="hidden" onclick="showPage('admin')">Админка</a>
+    </div>
+    <div style="color:var(--t3);font-size:.78rem;text-align:right">
+      © 2024 CyberPC Kazakhstan<br>
+      <span style="font-size:.7rem">📞 +7 (747) 123-45-67 · 📷 @cyberpc.kz</span>
+    </div>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
